@@ -1,0 +1,22 @@
+# Virtual environment
+SPAM_V2_ENV/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Mac system file
+.DS_Store
+
+# Model files (too large for GitHub)
+backend/model/
+
+# Environment variables (API keys — never commit these)
+.env
+
+# Node modules (frontend dependencies)
+frontend/node_modules/
