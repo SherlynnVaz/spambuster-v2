@@ -82,17 +82,47 @@ try:
     merged = merged[merged['label'].isin(['spam', 'ham'])]
     merged = merged.reset_index(drop=True)
 
-    print(f"\n✅ Final Dataset:")
+    print(f"\nFinal Dataset:")
     print(f"  Total: {len(merged)}")
     print(f"  Spam:  {len(merged[merged.label=='spam'])}")
     print(f"  Ham:   {len(merged[merged.label=='ham'])}")
 
     # SAVE
     merged.to_csv('training/merged_dataset.csv', index=False)
-    print(f"\n✅ Saved to training/merged_dataset.csv")
+    print(f"\nSaved to training/merged_dataset.csv")
     print("=" * 50)
 
 except Exception as e:
-    print(f"\n❌ Error: {e}")
+    print(f"\nError: {e}")
     import traceback
     traceback.print_exc()
+
+from sklearn.model_selection import train_test_split
+
+print("\n── Creating Train/Val/Test splits...")
+
+# Step 1: Split off 20% for test
+train_val, test = train_test_split(
+    merged,
+    test_size=0.10,
+    random_state=42,
+    stratify=merged['label']  # keeps spam/ham ratio balanced in each split
+)
+
+# Step 2: Split remaining into train and val
+train, val = train_test_split(
+    train_val,
+    test_size=0.111,  # 0.111 of 90% ≈ 10% of total
+    random_state=42,
+    stratify=train_val['label']
+)
+
+# Save all three
+train.to_csv('training/train.csv', index=False)
+val.to_csv('training/val.csv', index=False)
+test.to_csv('training/test.csv', index=False)
+
+print(f"  Train: {len(train)} messages")
+print(f"  Val:   {len(val)} messages")
+print(f"  Test:  {len(test)} messages")
+print(f"\n Splits saved to training/")
