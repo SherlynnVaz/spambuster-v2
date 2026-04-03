@@ -1,5 +1,4 @@
-cat > README.md << 'EOF'
-#  SpamBuster v2
+# SpamBuster v2
 
 SMS & Email Spam Classifier — Version 2.0
 
@@ -22,4 +21,3 @@ SMS & Email Spam Classifier — Version 2.0
 
 ## v1 Prototype
 See [spambuster](https://github.com/SherlynnVaz/spambuster) for the v1 Naive Bayes prototype.
-EOF
