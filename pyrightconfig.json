@@ -1,0 +1,6 @@
+{
+  "venvPath": ".",
+  "venv": "SPAM_V2_ENV",
+  "pythonVersion": "3.13",
+  "include": ["backend", "training"]
+}

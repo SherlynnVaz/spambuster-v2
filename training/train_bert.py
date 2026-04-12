@@ -33,6 +33,7 @@ EPOCHS = 3            # how many times to go through training data
 LEARNING_RATE = 2e-5  # how fast the model updates its weights
 MODEL_NAME = 'bert-base-uncased'  # pre-trained model to start from
 SAVE_PATH = 'backend/model'       # where to save the final model
+WEIGHT_FOR_SPAM = 9.0  
 
 print(f"\n── Config:")
 print(f"   Max token length: {MAX_LENGTH}")
@@ -173,13 +174,14 @@ for epoch in range(EPOCHS):
         optimizer.zero_grad()
 
         # Forward pass — model makes predictions
+        # Weighted loss — penalises missing spam more heavily
+        weight = torch.tensor([1.0, 9.0]).to(device)
+        loss_fn = torch.nn.CrossEntropyLoss(weight=weight)
         outputs = model(
             input_ids=input_ids,
-            attention_mask=attention_mask,
-            labels=labels
+            attention_mask=attention_mask
         )
-
-        loss = outputs.loss
+        loss = loss_fn(outputs.logits, labels)      
         total_train_loss += loss.item()
 
         # Backward pass — calculate gradients
